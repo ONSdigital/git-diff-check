@@ -3,6 +3,12 @@ Git Push Guard
 
 A simple library for checking git diff output for potentially sensitive information
 
+Pre-commit hook
+===============
+
+A pre-commit hook script is provided for convenience that uses this library
+to test changes before you commit.
+
 License
 =======
 
