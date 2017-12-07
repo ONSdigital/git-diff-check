@@ -1,4 +1,4 @@
-Git Push Guard
+Git Diff Check
 ==============
 
 A simple library for checking git diff output for potentially sensitive information
