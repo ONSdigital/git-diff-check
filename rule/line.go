@@ -1,4 +1,4 @@
-package diffcheck
+package rule
 
 var lineRulesJSON = []byte(`
 [

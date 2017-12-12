@@ -1,4 +1,6 @@
-package diffcheck
+// Package rule contains the configurations for the available rulesets. These are
+// pre-compiled on start up for efficiency
+package rule
 
 import (
 	"encoding/json"
@@ -15,41 +17,34 @@ type Rule struct {
 	Regex       *regexp.Regexp `json:"regex,omitempty"`
 }
 
-type ruleSetType string
-
-const (
-	fileType ruleSetType = "file"
-	lineType ruleSetType = "line"
-)
-
 var (
-	ruleSets map[ruleSetType][]Rule
+	// Sets contain the available rulesets
+	Sets map[string][]Rule
 )
 
 // Precompiles the rulesets. Panics if the rulesets can't be parsed.
 func init() {
-
-	ruleSets = make(map[ruleSetType][]Rule)
+	Sets = make(map[string][]Rule)
 
 	// Compile the filename level rules
 	var gr []Rule
 	if err := json.Unmarshal(gitrobJSON, &gr); err != nil {
 		panic(err)
 	}
-	ruleSets[fileType] = gr
+	Sets["file"] = gr
 
 	// Compile the patch line level rules
 	var pr []Rule
 	if err := json.Unmarshal(lineRulesJSON, &pr); err != nil {
 		panic(err)
 	}
-	ruleSets[lineType] = pr
+	Sets["line"] = pr
 
 	// For all regex types, precompile the regex
-	for _, set := range []ruleSetType{fileType, lineType} {
-		for i := range ruleSets[set] {
-			if ruleSets[set][i].Type == "regex" {
-				ruleSets[set][i].Regex = regexp.MustCompile(ruleSets[set][i].Pattern)
+	for _, set := range []string{"file", "line"} {
+		for i := range Sets[set] {
+			if Sets[set][i].Type == "regex" {
+				Sets[set][i].Regex = regexp.MustCompile(Sets[set][i].Pattern)
 			}
 		}
 	}

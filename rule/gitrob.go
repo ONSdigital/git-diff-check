@@ -1,4 +1,4 @@
-package diffcheck
+package rule
 
 // Taken from most recent release of gitrob
 // https://raw.githubusercontent.com/michenriksen/gitrob/master/signatures.json

@@ -9,13 +9,15 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/ONSdigital/git-diff-check/rule"
 )
 
 type (
 	// Warning is a specific warning about a file in diff. One or more are compiled
 	// into a `Report`
 	Warning struct {
-		Type        ruleSetType
+		Type        string
 		Description string // Human compatible warning description
 		Line        int    // Line number (if applicable) where the warning was triggered. If no line then will be -1
 	}
@@ -88,10 +90,16 @@ func SnoopPatch(patch []byte) (bool, []Report, error) {
 		if bytes.HasPrefix(line, []byte("@@ ")) {
 			matches := reOffset.FindAllSubmatch(line, -1)
 
-			linePosition, err = strconv.Atoi(string(matches[0][2]))
-			if err != nil {
-				// TODO handle better!
-				return false, nil, err
+			// nb. If there are no matches then we just assume we're in a line
+			// that _looks_ like a hunk start but isn't (This isn't infallible
+			// but only works for line number convenience anyhow - actual scan
+			// isn't reliant on it)
+			if len(matches) > 0 {
+				linePosition, err = strconv.Atoi(string(matches[0][2]))
+				if err != nil {
+					// TODO handle better!
+					return false, nil, err
+				}
 			}
 
 			inHunk = true
@@ -126,9 +134,9 @@ func checkLineBytes(line []byte, position int) (bool, []Warning) {
 
 	warnings := []Warning{}
 
-	for _, rule := range ruleSets[lineType] {
+	for _, rule := range rule.Sets["line"] {
 		if rule.Regex.Match(line) {
-			warnings = append(warnings, Warning{Type: lineType, Description: rule.Caption, Line: position})
+			warnings = append(warnings, Warning{Type: "line", Description: rule.Caption, Line: position})
 		}
 	}
 
@@ -152,7 +160,7 @@ func checkFile(path string) (bool, []Warning) {
 
 	warnings := []Warning{}
 
-	for _, rule := range ruleSets[fileType] {
+	for _, rule := range rule.Sets["file"] {
 		// Determine which bit of the filename we want to test
 		toTest := ""
 
@@ -168,11 +176,11 @@ func checkFile(path string) (bool, []Warning) {
 		switch rule.Type {
 		case "regex":
 			if rule.Regex.Match([]byte(toTest)) {
-				warnings = append(warnings, Warning{Type: fileType, Description: rule.Caption, Line: -1})
+				warnings = append(warnings, Warning{Type: "file", Description: rule.Caption, Line: -1})
 			}
 		case "match":
 			if rule.Pattern == toTest {
-				warnings = append(warnings, Warning{Type: fileType, Description: rule.Caption, Line: -1})
+				warnings = append(warnings, Warning{Type: "file", Description: rule.Caption, Line: -1})
 			}
 		}
 	}
