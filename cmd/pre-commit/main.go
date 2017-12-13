@@ -1,10 +1,12 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 
 	"github.com/ONSdigital/git-diff-check/diffcheck"
 )
@@ -15,13 +17,37 @@ const (
 	rejected = 1
 )
 
+var (
+	target = flag.String("p", "", "(optional) path to repository")
+)
+
 func main() {
+	flag.Parse()
 
-	fmt.Println("Running precommit diff check")
+	if *target == "" {
+		*target = "."
+	}
+	fmt.Printf("Running precommit diff check on '%s'\n", *target)
 
+	// Get where we are so we can get back
+	ex, err := os.Executable()
+	if err != nil {
+		log.Fatal("Couldn't get current dir:", err)
+	}
+	here := filepath.Dir(ex)
+
+	os.Chdir(*target)
 	patch, err := exec.Command("git", "diff", "-U0", "--staged").Output()
 	if err != nil {
 		log.Fatal("Failed to run git command:", err)
+	}
+	os.Chdir(here)
+
+	fmt.Println(patch)
+
+	if len(patch) == 0 {
+		fmt.Println("No changes to test - exiting")
+		os.Exit(accepted)
 	}
 
 	ok, reports, err := diffcheck.SnoopPatch(patch)
