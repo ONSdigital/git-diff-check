@@ -20,7 +20,7 @@ func TestSnoopPatch(t *testing.T) {
 
 	for _, tc := range testCases {
 
-		Convey("Gven a patch containing "+tc.Name, t, func() {
+		Convey("Given a patch containing "+tc.Name, t, func() {
 			patch = tc.Patch
 			Convey("When the patch is snooped", func() {
 				ok, reports, err := diffcheck.SnoopPatch(patch)
