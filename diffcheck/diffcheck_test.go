@@ -4,8 +4,6 @@ import (
 	"testing"
 
 	"github.com/ONSdigital/git-diff-check/diffcheck"
-
-	. "github.com/smartystreets/goconvey/convey"
 )
 
 type testCase struct {
@@ -16,25 +14,54 @@ type testCase struct {
 
 func TestSnoopPatch(t *testing.T) {
 
-	var patch []byte
-
 	for _, tc := range testCases {
 
-		Convey("Given a patch containing "+tc.Name, t, func() {
-			patch = tc.Patch
-			Convey("When the patch is snooped", func() {
-				ok, reports, err := diffcheck.SnoopPatch(patch)
+		t.Logf("Given a patch containing %s", tc.Name)
+		t.Logf("  When the patch is snooped")
+		ok, reports, err := diffcheck.SnoopPatch(tc.Patch)
 
-				Convey("Reports should be returned", func() {
-					So(err, ShouldBeNil)
-					So(ok, ShouldBeFalse)
-					So(reports, ShouldResemble, tc.ExpectedReports)
-				})
-			})
-		})
+		if err != nil {
+			t.Errorf("Expected no error, but got: %v", err)
+		}
+		if ok {
+			t.Errorf("Expected warning to be flagged, but got: %v", ok)
+		}
 
+		if len(reports) != len(tc.ExpectedReports) {
+			t.Errorf("Incorrect number of reports, got %d, expected %d", len(reports), len(tc.ExpectedReports))
+		}
+
+		for i, expected := range tc.ExpectedReports {
+			gotReport := reports[i]
+
+			shouldEqual("path", gotReport.Path, expected.Path, t)
+			shouldEqual("old path", gotReport.OldPath, expected.OldPath, t)
+
+			if len(expected.Warnings) != len(gotReport.Warnings) {
+				t.Errorf("Incorrect number of warnings in report, got %d, expected %d", len(expected.Warnings), len(gotReport.Warnings))
+			}
+
+			for j, expWarning := range expected.Warnings {
+				gotWarning := gotReport.Warnings[j]
+
+				shouldEqual("type", gotWarning.Type, expWarning.Type, t)
+				shouldEqualInt("line", gotWarning.Line, expWarning.Line, t)
+				shouldEqual("description", gotWarning.Description, expWarning.Description, t)
+			}
+		}
 	}
+}
 
+func shouldEqual(field, got, expected string, t *testing.T) {
+	if got != expected {
+		t.Errorf("Expected %s to be %s, but got %s", field, expected, got)
+	}
+}
+
+func shouldEqualInt(field string, got, expected int, t *testing.T) {
+	if got != expected {
+		t.Errorf("Expected %s to be %d, but got %d", field, expected, got)
+	}
 }
 
 var testCases = []testCase{
