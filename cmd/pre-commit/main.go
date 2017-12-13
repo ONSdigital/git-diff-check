@@ -36,14 +36,15 @@ func main() {
 	}
 	here := filepath.Dir(ex)
 
-	os.Chdir(*target)
-	patch, err := exec.Command("git", "diff", "-U0", "--staged").Output()
+	err = os.Chdir(*target)
 	if err != nil {
-		log.Fatal("Failed to run git command:", err)
+		log.Fatal("Failed to change to target dir:", err)
+	}
+	patch, err := exec.Command("git", "diff", "-U0", "--staged").CombinedOutput()
+	if err != nil {
+		log.Fatalf("Failed to run git command: %v (%s)", err, patch)
 	}
 	os.Chdir(here)
-
-	fmt.Println(patch)
 
 	if len(patch) == 0 {
 		fmt.Println("No changes to test - exiting")
