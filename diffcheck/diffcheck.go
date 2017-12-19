@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"io"
-	"log"
 	"path/filepath"
 	"regexp"
 	"strconv"
@@ -52,17 +51,30 @@ func SnoopPatch(patch []byte) (bool, []Report, error) {
 	inHunk := false
 	linePosition := 0
 
+	var tmp []byte
+
 	for {
 		line, isPrefix, err := reader.ReadLine()
 		if isPrefix {
-			// TODO Conscious decision not to handle this yet - should be addressed!
-			log.Fatal("Unable to handle long lines")
+			// Long line. Temporarily store what we have and pick up the next
+			// chunk on the next pass.
+			if tmp == nil {
+				tmp = make([]byte, len(line))
+			}
+			tmp = append(tmp, line...)
+			continue
 		}
 		if err == io.EOF {
 			if len(report.Warnings) > 0 {
 				reports = append(reports, report)
 			}
 			break
+		}
+		if tmp != nil {
+			// If we have temporarily stored long line data then dump it back out to the
+			// line and continue
+			line = append(tmp, line...)
+			tmp = nil
 		}
 
 		// Check whether we're starting a new file block section of the patch or
