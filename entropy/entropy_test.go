@@ -49,33 +49,41 @@ func TestCalculateEntropy(t *testing.T) {
 
 func TestCheck(t *testing.T) {
 
-	// 	exampleBlock := []byte(`+// CheckPatchLine takes a line from a patch hunk and tests it for naughty patterns
-	// +func CheckPatchLine(line []byte) (bool, []Warning) {
-	// +       warnings := []Warning{}
-	// +		aws := []byte("hSXAQy9D1J0hkCQy0tKBCxnpcOQCPeM54RFXZLJE")
-	// +
-	// + 		// Log in with secret: ZWVTjPQSdhwRgl204Hc51YCsritMIzn8B=/p9UyeX7xu6KkAGqfm3FJ+oObLDNEva
-	// +
-	// +       for _, rule := range linePatterns {
-	// +               if found := rule.Regex.FindAll(line, -1); len(found) > 0 {
-	// +                       for _, f := range found {
-	// +                               // TODO Ignore exclusions
-	// +                               if string(f) != "b3A0a1FDfe86dcCE945B72" {
-	// +                                       warnings = append(warnings, Warning{Type: "line", Line: -1})
-	// +                               }`)
+	exampleBlock := []byte(`+// CheckPatchLine takes a line from a patch hunk and tests it for naughty patterns
++func CheckPatchLine(line []byte) (bool, []Warning) {
++       warnings := []Warning{}
++		aws := []byte("hSXAQy9D1J0hkCQy0tKBCxnpcOQCPeM54RFXZLJE")
++
++ 		// Log in with secret: ZWVTjPQSdhwRgl204Hc51YCsritMIzn8B=/p9UyeX7xu6KkAGqfm3FJ+oObLDNEva
++
++       for _, rule := range linePatterns {
++               if found := rule.Regex.FindAll(line, -1); len(found) > 0 {
++                       for _, f := range found {
++                               // TODO Ignore exclusions
++                               if string(f) != "b3A0a1FDfe86dcCE945B72" {
++                                       warnings = append(warnings, Warning{Type: "line", Line: -1})
++                               }`)
 
-	// ok, n := entropy.Check(exampleBlock)
-	// if ok {
-	// 	t.Error("Expected 'not ok'")
-	// }
-	// if n != 3 {
-	// 	t.Errorf("Expected warnings, got %d, expected 3", n)
-	// }
+	ok, n := entropy.Check(exampleBlock)
+	if ok {
+		t.Error("Expected 'not ok'")
+	}
+	if n != 3 {
+		t.Errorf("Expected warnings, got %d, expected 3", n)
+	}
 
 	for _, b := range highBase64 {
-		fmt.Printf("Check: %s\n", b)
-		ok, n := entropy.Check(b)
-		fmt.Println("OK?? ", ok, n)
+		ok, _ := entropy.Check(b)
+		if ok {
+			t.Error("Expected failed base64 entropy check")
+		}
+	}
+
+	for _, b := range highHex {
+		ok, _ := entropy.Check(b)
+		if ok {
+			t.Error("Expected failed hex entropy check")
+		}
 	}
 
 }

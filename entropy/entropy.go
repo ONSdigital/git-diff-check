@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"math"
 	"strings"
+
+	"github.com/davecgh/go-spew/spew"
 )
 
 // Define entropy thresholds over which a string is considered complex enough
@@ -40,39 +42,43 @@ func CalculateShannon(data []byte) float64 {
 // entropy blocks. Returns true and number of matching strings if found
 func Check(b []byte) (bool, int) {
 
-	fmt.Printf("Checking %s\n", b)
-
 	found := [][]byte{}
 
 	// Offset where we started reading the data - indexes from
 	// 1 instead of zero otherwise we'll capture a spurious leading
 	// byte into the slice
 	// start := 1
-	start := 0
+	start := -1
 
 	// Base64 strings
 	for i, tok := range b {
 		if !isBase64Byte(tok) || i+1 == len(b) {
 			if i-start >= consider {
-				if e := CalculateShannon(b[start:i]); e > Base64Threshold {
-					found = append(found, b[start:i])
+				s := b[start+1 : i]
+				if e := CalculateShannon(s); e > Base64Threshold {
+					found = append(found, s)
 				}
 			}
 			start = i
 		}
 	}
 
+	start = -1
+
 	// Hex strings
 	for i, tok := range b {
 		if !isHexByte(tok) || i+1 == len(b) {
 			if i-start >= consider {
-				if e := CalculateShannon(b[start:i]); e > HexThreshold {
-					found = append(found, b[start:i])
+				s := b[start+1 : i]
+				if e := CalculateShannon(s); e > HexThreshold {
+					found = append(found, s)
 				}
 			}
 			start = i
 		}
 	}
+
+	fmt.Println(spew.Sdump(found))
 
 	return len(found) == 0, len(found)
 }
