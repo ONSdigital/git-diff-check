@@ -3,11 +3,8 @@ package entropy
 
 import (
 	"bytes"
-	"fmt"
 	"math"
 	"strings"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 // Define entropy thresholds over which a string is considered complex enough
@@ -77,8 +74,6 @@ func Check(b []byte) (bool, int) {
 			start = i
 		}
 	}
-
-	fmt.Println(spew.Sdump(found))
 
 	return len(found) == 0, len(found)
 }

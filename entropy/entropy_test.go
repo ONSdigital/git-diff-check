@@ -17,6 +17,7 @@ var (
 		[]byte(`ZWVTjPQSdhwRgl204Hc51YCsritMIzn8B=/p9UyeX7xu6KkAGqfm3FJ+oObLDNEva`),
 		[]byte(`hSXAQy9D1J0hkCQy0tKBCxnpcOQCPeM54RFXZLJE`),
 		[]byte(`secret=ZWVTjPQSdhwRgl204Hc51YCsritMIzn8B=/p9UyeX7xu6KkAGqfm3FJ+oObLDNEva`),
+		[]byte(`aws:ZWVTjPQSdhwRgl204Hc51YCsritMIzn8B=/p9UyeX7xu6KkAGqfm3FJ+oObLDNEva`),
 	}
 	highHex = [][]byte{
 		[]byte(`b3A0a1FDfe86dcCE945B72`),
