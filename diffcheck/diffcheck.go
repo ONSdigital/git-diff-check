@@ -11,6 +11,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/ONSdigital/git-diff-check/entropy"
+
 	"github.com/ONSdigital/git-diff-check/rule"
 )
 
@@ -155,6 +157,14 @@ func SnoopPatch(patch []byte) (bool, []Report, error) {
 	return true, nil, nil
 }
 
+// func checkHunkEntropy(hunk []byte) (bool, []Warning) {
+// 	if ok, _ := entropy.Check(hunk); ok {
+// 		return true, nil
+// 	}
+
+// 	return false, []Warning{Warning{Type: "entropy", Description: "High entropy string found", Line: position}}]
+// }
+
 // checkLineBytes runs rules against each line in the patch for a file to see whether
 // they match potentially sensitive patterns
 // Returns true with a set of Warning structs if found, otherwise false
@@ -162,10 +172,16 @@ func checkLineBytes(line []byte, position int) (bool, []Warning) {
 
 	warnings := []Warning{}
 
+	// Normal line rulesets
 	for _, rule := range rule.Sets["line"] {
 		if rule.Regex.Match(line) {
 			warnings = append(warnings, Warning{Type: "line", Description: rule.Caption, Line: position})
 		}
+	}
+
+	// Entropy check
+	if ok, _ := entropy.Check(line); !ok {
+		warnings = append(warnings, Warning{Type: "line", Description: "Possible key in high entropy string", Line: position})
 	}
 
 	if len(warnings) > 0 {
