@@ -1,3 +1,5 @@
+// Package diffcheck provides functions for checking a git diff for potentially
+// sensitive information.
 package diffcheck
 
 import (
@@ -16,16 +18,28 @@ type (
 	// Warning is a specific warning about a file in diff. One or more are compiled
 	// into a `Report`
 	Warning struct {
-		Type        string
-		Description string // Human compatible warning description
-		Line        int    // Line number (if applicable) where the warning was triggered. If no line then will be -1
+		// The ruleset type that triggered the warning. e.g. "file" or "line"
+		Type string
+
+		// Human compatible warning description
+		Description string
+
+		// Line number (if applicable) where the warning was triggered.
+		// If no line then will be -1
+		Line int
 	}
 
 	// Report is a collection of warnings for a particular file discovered in
 	// a patch
 	Report struct {
-		Path     string
-		OldPath  string // Differs with Path is file has been moved/renamed
+		// Current relative path of the file to which the report pertains
+		Path string
+
+		// Old path of the file - will be identical unless the file has been
+		// moved/renamed as part of the changeset
+		OldPath string
+
+		// Set of warnings pertaining to this report
 		Warnings []Warning
 	}
 )
@@ -40,7 +54,9 @@ const (
 )
 
 // SnoopPatch takes a raw github patch byte array and tests it against the
-// defined rulesets
+// defined rulesets. Returns true if diff appears clean and false otherwise. In
+// the case of a potentially unclean diff, a report set will also be returned
+// detailing a set of warnings identified.
 func SnoopPatch(patch []byte) (bool, []Report, error) {
 
 	reader := bufio.NewReader(bytes.NewReader(patch))
@@ -199,7 +215,7 @@ func checkFile(path string) (bool, []Warning) {
 	if len(warnings) > 0 {
 		return false, warnings
 	}
-	return false, nil
+	return true, nil
 }
 
 // Returns the actual filename and previous filename (which may or may not
