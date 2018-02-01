@@ -13,9 +13,23 @@ to test changes before you commit.
 
 (requires Go 1.8+)
 
+With `go get`
+
 ```shell
-$ git clone https://github.com/ONSdigital/git-diff-check.git
-$ cd git-diff-check
+$ go get github.com/ONSdigital/git-diff-check
+```
+
+or git clone
+
+```shell
+$ cd ${GOPATH}
+$ git clone https://github.com/ONSdigital/git-diff-check.git src/github.com/ONSdigital/git-diff-check
+```
+
+Then build and deploy
+
+```shell
+$ cd ${GOPATH}/src/github.com/ONSdigital/git-diff-check
 $ go build -o pre-commit cmd/pre-commit/main.go
 $ mkdir -p ${HOME}/.git-templates/hooks
 $ mv pre-commit ${HOME}/.git-templates/hooks/pre-commit
