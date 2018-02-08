@@ -11,6 +11,24 @@ to test changes before you commit.
 
 ## Installing
 
+First, ensure you have an initialised `.git-templates` folder:
+
+```shell
+$ git config --global init.templatedir '~/.git-templates'
+$ mkdir -p ~/.git-templates/hooks
+```
+
+You can verify the initialisation by looking in your `.gitconfig`:
+
+```shell
+$ cat ~/.gitconfig
+...
+[init]
+    templatedir = <path-to>/.git-templates
+```
+
+Then install the `pre-commit` tool:
+
 - [From binary](#from-binary)
 - [From source](#from-source)
 
