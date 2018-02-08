@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/ONSdigital/git-diff-check/entropy"
 	"github.com/ONSdigital/git-diff-check/rule"
 )
 
@@ -162,10 +163,16 @@ func checkLineBytes(line []byte, position int) (bool, []Warning) {
 
 	warnings := []Warning{}
 
+	// Normal line rulesets
 	for _, rule := range rule.Sets["line"] {
 		if rule.Regex.Match(line) {
 			warnings = append(warnings, Warning{Type: "line", Description: rule.Caption, Line: position})
 		}
+	}
+
+	// Entropy check
+	if ok, _ := entropy.Check(line); !ok {
+		warnings = append(warnings, Warning{Type: "line", Description: "Possible key in high entropy string", Line: position})
 	}
 
 	if len(warnings) > 0 {

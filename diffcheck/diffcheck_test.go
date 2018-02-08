@@ -42,7 +42,7 @@ func TestSnoopPatch(t *testing.T) {
 			shouldEqual("old path", gotReport.OldPath, expected.OldPath, t)
 
 			if len(expected.Warnings) != len(gotReport.Warnings) {
-				t.Errorf("Incorrect number of warnings in report, got %d, expected %d", len(expected.Warnings), len(gotReport.Warnings))
+				t.Errorf("Incorrect number of warnings in report, got %d, expected %d", len(gotReport.Warnings), len(expected.Warnings))
 			}
 
 			for j, expWarning := range expected.Warnings {
@@ -126,6 +126,11 @@ index 0000000..e69de29
 						Line:        6,
 						Description: "Possible AWS Access Key",
 					},
+					{
+						Type:        "line",
+						Line:        7,
+						Description: "Possible key in high entropy string",
+					},
 				},
 			},
 		},
@@ -138,6 +143,7 @@ index e69de29..92251f8 100644
 
 # Shhh
 aws=AKIA7362373827372737
+secret=ZWVTjPQSdhwRgl204Hc51YCsritMIzn8B=/p9UyeX7xu6KkAGqfm3FJ+oObLDNEva
 		`),
 	},
 }
