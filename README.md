@@ -11,6 +11,17 @@ to test changes before you commit.
 
 ## Installing
 
+- [From binary](#from-binary)
+- [From source](#from-source)
+
+### From Binary
+
+- Download the latest [release](https://github.com/ONSdigital/git-diff-check/releases) for your platform
+- Unzip the release and place the `pre-commit` script in `${HOME}/.git-templates/hooks` (ensure it's executable)
+
+
+### From Source
+
 (requires Go 1.8+)
 
 With `go get`
