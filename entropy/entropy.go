@@ -38,7 +38,6 @@ func CalculateShannon(data []byte) float64 {
 // Check searches through a given block of data to attempt to identify high
 // entropy blocks. Returns true and number of matching strings if found
 func Check(b []byte) (bool, int) {
-
 	found := [][]byte{}
 
 	// Offset where we started reading the data - indexes from

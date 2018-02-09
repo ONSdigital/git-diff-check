@@ -22,12 +22,19 @@ var (
 )
 
 func main() {
+
 	flag.Parse()
 
 	if *target == "" {
 		*target = "."
 	}
 	fmt.Printf("Running precommit diff check on '%s'\n", *target)
+
+	// Import environmental feature flags
+	if useEntropyFeature := os.Getenv("DC_ENTROPY_EXPERIMENT"); useEntropyFeature == "1" {
+		fmt.Println("i) Experimental entropy checking enabled")
+		diffcheck.UseEntropy = true
+	}
 
 	// Get where we are so we can get back
 	ex, err := os.Executable()

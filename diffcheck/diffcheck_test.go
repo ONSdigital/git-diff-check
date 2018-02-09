@@ -17,6 +17,9 @@ type testCase struct {
 
 func TestSnoopPatch(t *testing.T) {
 
+	// Enable the feature flag to assume entropy usage in these tests
+	diffcheck.UseEntropy = true
+
 	for _, tc := range testCases {
 
 		t.Logf("Given a patch containing %s", tc.Name)
@@ -36,6 +39,9 @@ func TestSnoopPatch(t *testing.T) {
 		}
 
 		for i, expected := range tc.ExpectedReports {
+			if i >= len(reports) {
+				break
+			}
 			gotReport := reports[i]
 
 			shouldEqual("path", gotReport.Path, expected.Path, t)
@@ -46,6 +52,9 @@ func TestSnoopPatch(t *testing.T) {
 			}
 
 			for j, expWarning := range expected.Warnings {
+				if j >= len(gotReport.Warnings) {
+					break
+				}
 				gotWarning := gotReport.Warnings[j]
 
 				shouldEqual("type", gotWarning.Type, expWarning.Type, t)
