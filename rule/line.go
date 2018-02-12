@@ -10,6 +10,12 @@ var lineRulesJSON = []byte(`
 	},
 	{
 		"type": "regex",
+		"pattern": "-----BEGIN CERTIFICATE-----",
+		"caption": "Possibly certificate data",
+		"description": null
+	},
+	{
+		"type": "regex",
 		"pattern": "(xox[p|b|o|a]-[0-9]{12}-[0-9]{12}-[0-9]{12}-[a-z0-9]{32})",
 		"caption": "Possible Slack API token",
 		"description": null
