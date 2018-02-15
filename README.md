@@ -68,6 +68,8 @@ The hook will now be installed into each repository you subsequently create or
 clone locally. If you want to add to an existing repository you can copy the 
 `pre-commit` binary into `.git/hooks/pre-commit` in the local repository.
 
+### Usage
+
 Once installed, the binary will run each time you use `git commit`.
 
 If it finds things it thinks could be sensitive it will flag a warning and stop
