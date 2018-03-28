@@ -11,6 +11,35 @@ to test changes before you commit.
 
 ## Installing
 
+First, ensure you have an initialised `.git-templates` folder:
+
+```shell
+$ git config --global init.templatedir '~/.git-templates'
+$ mkdir -p ~/.git-templates/hooks
+```
+
+You can verify the initialisation by looking in your `.gitconfig`:
+
+```shell
+$ cat ~/.gitconfig
+...
+[init]
+    templatedir = <path-to>/.git-templates
+```
+
+Then install the `pre-commit` tool:
+
+- [From binary](#from-binary)
+- [From source](#from-source)
+
+### From Binary
+
+- Download the latest [release](https://github.com/ONSdigital/git-diff-check/releases) for your platform
+- Unzip the release and place the `pre-commit` script in `${HOME}/.git-templates/hooks` (ensure it's executable)
+
+
+### From Source
+
 (requires Go 1.8+)
 
 With `go get`
@@ -38,6 +67,8 @@ $ mv pre-commit ${HOME}/.git-templates/hooks/pre-commit
 The hook will now be installed into each repository you subsequently create or
 clone locally. If you want to add to an existing repository you can copy the 
 `pre-commit` binary into `.git/hooks/pre-commit` in the local repository.
+
+### Usage
 
 Once installed, the binary will run each time you use `git commit`.
 
