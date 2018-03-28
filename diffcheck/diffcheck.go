@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/ONSdigital/git-diff-check/entropy"
 	"github.com/ONSdigital/git-diff-check/rule"
 )
 
@@ -47,6 +48,10 @@ type (
 var (
 	// Matches the first offset in the old and new diff
 	reOffset = regexp.MustCompile("^@@ -(\\d+).* \\+(\\d+).* @@")
+
+	// UseEntropy is a feature flag that, if set true, enables experimental
+	// string entropy testing
+	UseEntropy = false
 )
 
 const (
@@ -162,9 +167,17 @@ func checkLineBytes(line []byte, position int) (bool, []Warning) {
 
 	warnings := []Warning{}
 
+	// Normal line rulesets
 	for _, rule := range rule.Sets["line"] {
 		if rule.Regex.Match(line) {
 			warnings = append(warnings, Warning{Type: "line", Description: rule.Caption, Line: position})
+		}
+	}
+
+	// Entropy check
+	if UseEntropy {
+		if ok, _ := entropy.Check(line); !ok {
+			warnings = append(warnings, Warning{Type: "line", Description: "Possible key in high entropy string", Line: position})
 		}
 	}
 

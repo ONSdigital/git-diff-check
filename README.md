@@ -89,6 +89,18 @@ If you're VERY SURE these files are ok, rerun commit with --no-verify
 **NB** Currently if you update the pre-commit script in your templates, you will
 need to manually re-copy it into each repo that uses it.
 
+
+## Experimental Entropy Checking
+
+By default, the `pre-commit` tool won't use entropy checking on patch strings. If you
+wish to enable this functionality, please set the `DC_ENTROPY_EXPERIMENT` environment
+variable.
+
+```shell
+$ export DC_ENTROPY_EXPERIMENT=1
+```
+
+
 License
 =======
 
