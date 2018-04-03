@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.3.0 2018-04-03
+
 - add build for `linux/amd64`
 
 ## 0.2.0 2018-03-28
