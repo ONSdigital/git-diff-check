@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- add build for `linux/amd64`
+
 ## 0.2.0 2018-03-28
 
 - add regex line test for `----BEGIN CERTIFICATE----`
