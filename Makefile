@@ -1,4 +1,4 @@
-platforms = windows/amd64 darwin/amd64
+platforms = windows/amd64 darwin/amd64 linux/amd64
 package = cmd/pre-commit/main.go
 binary = build/pre-commit
 
