@@ -65,8 +65,7 @@ $ mv pre-commit ${HOME}/.git-templates/hooks/pre-commit
 ```
 
 The hook will now be installed into each repository you subsequently create or
-clone locally. If you want to add to an existing repository you can copy the 
-`pre-commit` binary into `.git/hooks/pre-commit` in the local repository.
+clone locally. If you want to add to an existing repository you can `cd` into your local repository and run `git init`.
 
 ### Usage
 
@@ -86,8 +85,8 @@ Found in (questionableCode.py)
 If you're VERY SURE these files are ok, rerun commit with --no-verify
 ```
 
-**NB** Currently if you update the pre-commit script in your templates, you will
-need to manually re-copy it into each repo that uses it.
+**NB** If you update the pre-commit script in your templates, you will
+need to re-run `git init`
 
 
 ## Experimental Entropy Checking
