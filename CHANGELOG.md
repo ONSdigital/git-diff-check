@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- move to global installation - requires removal of previous individual repo copies
+- add install script for mac os
+
 ## 0.3.0 2018-04-03
 
 - add build for `linux/amd64`
