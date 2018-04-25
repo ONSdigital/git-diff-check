@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.4.0 2018-04-25
+
 - move to global installation - requires removal of previous individual repo copies
 - add install script for mac os
 

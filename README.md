@@ -4,6 +4,8 @@ A simple library for checking git diff output for potentially sensitive informat
 
 ## Pre-commit hook
 
+*Requires git 2.9+*
+
 A pre-commit hook script is provided for convenience that uses this library
 to test changes before you commit.
 
