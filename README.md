@@ -19,7 +19,7 @@ to test changes before you commit.
 1. Run the installer:
 
 ```sh
-$ curl -L https://github.com/ONSdigital/git-diff-check/blob/master/install.sh | sh
+$ curl -L https://raw.githubusercontent.com/ONSdigital/git-diff-check/master/install.sh | sh
 ```
 
 - **For other platforms**
