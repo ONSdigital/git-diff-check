@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- fix #8 ignore lines in a patch that are being removed rather than added / changed
+
 ## 0.4.0 2018-04-25
 
 - move to global installation - requires removal of previous individual repo copies
