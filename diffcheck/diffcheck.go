@@ -167,6 +167,11 @@ func checkLineBytes(line []byte, position int) (bool, []Warning) {
 
 	warnings := []Warning{}
 
+	// Check if it's a removed line - we don't care if it is
+	if bytes.HasPrefix(line, []byte(`-`)) {
+		return false, nil
+	}
+
 	// Normal line rulesets
 	for _, rule := range rule.Sets["line"] {
 		if rule.Regex.Match(line) {

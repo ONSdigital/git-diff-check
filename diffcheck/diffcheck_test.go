@@ -81,6 +81,22 @@ func shouldEqualInt(field string, got, expected int, t *testing.T) {
 
 var testCases = []testCase{
 	testCase{
+		Name:            "a file where sensitive lines were removed",
+		OK:              true,
+		ExpectedReports: nil,
+		Patch: []byte(`
+diff --git a/do.txt b/do.txt
+index 782d690..e69de29 100644
+--- a/do.txt
++++ b/do.txt
+@@ -1,3 +0,0 @@
+------BEGIN CERTIFICATE-----
+-cdcdcds
+------END CERTIFICATE-----
+\ No newline at end of file
+			`),
+	},
+	testCase{
 		Name:            "a totally fine file",
 		OK:              true,
 		ExpectedReports: nil,
