@@ -16,8 +16,8 @@ else
   exit 0
 fi
 
-release="https://github.com/${repo}/releases/download/$(get_latest_release ${repo})/${binary}"
-echo ${release}
+release_version=$(get_latest_release ${repo})
+release="https://github.com/${repo}/releases/download/${release_version}/${binary}"
 
 # Create the target location if it doesn't already exist
 [ ! -d ${target} ] &&
@@ -26,12 +26,31 @@ echo ${release}
     mkdir -p ${target}
   }
 
+# Check if we're up to date
+echo "Check for previous versions ..."
+[ -f ${target}/pre-commit.version ] &&
+  {
+    existing=$(cat ${target}/pre-commit.version)
+    echo "-- found existing version ${existing}"
+    [ "${existing}" = "$release_version" ] &&
+      {
+        echo "-- already up to date!"
+        exit 0
+      }
+    echo "-- new version available ${release_version}"
+  }
+
 # Fetch the tool
-curl -L ${release} -o "${target}/pre-commit"
+echo "Fetching Git Diff precommit hook ${release_version} ..."
+echo "-- from ${release} ..."
+curl -L --progress-bar ${release} -o "${target}/pre-commit"
 chmod +x "${target}/pre-commit"
 
 # Update the git config
-echo "Updating git config"
+echo "Updating git config ..."
 git config --global core.hooksPath ${target}
+
+# Store the installed version
+echo ${release_version} > ${target}/pre-commit.version
 
 echo "Add done!"
