@@ -35,7 +35,6 @@ echo "Check for previous versions ..."
 [ -f ${target}/pre-commit ] &&
   {
     existing="$(${target}/pre-commit --version)"
-    # existing=$(cat ${target}/pre-commit.version)
     echo "-- found existing version ${existing}"
     [ "${existing}" = "$release_version" ] &&
       {
