@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.5.0 2018-09-17
+
 - fix #8 ignore lines in a patch that are being removed rather than added / changed
 - adds `-version` option to display the current cli version
 
