@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"time"
 
 	"github.com/ONSdigital/git-diff-check/diffcheck"
 )
@@ -21,8 +22,13 @@ const (
 	rejected = 1
 )
 
-// Repository defines the github repo where the source code is located
-const Repository = "ONSdigital/git-diff-check"
+const (
+	// Repository defines the github repo where the source code is located
+	Repository = "ONSdigital/git-diff-check"
+
+	// LatestVersion gives the api location of the most recent tag in github
+	LatestVersion = "https://api.github.com/repos/" + Repository + "/releases/latest"
+)
 
 var target = flag.String("p", "", "(optional) path to repository")
 var showVersion bool
@@ -127,30 +133,31 @@ type VersionResponse struct {
 
 func versionCheck() bool {
 
-	// TODO
-	// Set default client timeouts etc
+	var netClient = &http.Client{
+		Timeout: time.Second * 2,
+	}
 
-	resp, err := http.Get("https://api.github.com/repos/" + Repository + "/releases/latest")
+	resp, err := netClient.Get(LatestVersion)
 	if err != nil {
-		fmt.Println(errors.New("Failed to check for new versions" + err.Error()))
+		fmt.Println("Failed to check for new versions" + err.Error())
 		return false
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println(errors.New("Failed to read response from version check" + err.Error()))
+		fmt.Println("Failed to check for new versions" + err.Error())
 		return false
 	}
 
 	var v VersionResponse
 	err = json.Unmarshal(body, &v)
 	if err != nil {
-		fmt.Println(errors.New("Failed to read response from version check" + err.Error()))
+		fmt.Println("Failed to check for new versions" + err.Error())
 		return false
 	}
 
 	if len(v.TagName) == 0 {
-		fmt.Println(errors.New("Failed to parse version from github response"))
+		fmt.Println("Failed to parse version from github response")
 		return false
 	}
 
