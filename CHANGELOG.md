@@ -6,6 +6,7 @@
 
 - fix #8 ignore lines in a patch that are being removed rather than added / changed
 - adds `-version` option to display the current cli version
+- fix #18 add basic version check
 
 ## 0.4.0 2018-04-25
 
