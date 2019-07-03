@@ -1,0 +1,5 @@
+- id: git-diff-check
+  name: ONS git-diff-check
+  description: This hook runs ONSDigital/git-diff-check
+  entry: pre-commit
+  language: golang 
