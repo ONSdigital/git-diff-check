@@ -27,6 +27,7 @@ $ curl -L https://raw.githubusercontent.com/ONSdigital/git-diff-check/master/ins
 1. Download the latest [release](https://github.com/ONSdigital/git-diff-check/releases) for your platform
 1. Create (if not already) a folder to store global git hooks (e.g. `${HOME}/.githooks`)
 1. Unzip the release and place the `pre-commit` script in the global hooks folder (ensure it's executable)
+1. Ensure that pre-commit script is renamed to `pre-commit.exe` for Windows & `pre-commit` for Linux\Darwin.
 1. Configure git to use the hooks:
 
 ```sh
