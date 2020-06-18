@@ -3,16 +3,16 @@ name: Unit tests
 on: [push]
 
 jobs:
+
+  name: Regression versions
   build:
     strategy:
       matrix:
-        go: ["1.11", "1.12", "1.13", "1.14"]
-        platform: [ubuntu-latest, macos-latest, windows-latest]
-
+        go: ["1.11", "1.12", "1.13"]
+        platform: [ubuntu-latest]
     runs-on: ${{ matrix.platform }}
-
     name: Go ${{ matrix.go }} [${{ matrix.platform }}]
-    steps:
+    steps: &steps
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -23,3 +23,13 @@ jobs:
           go-version: ${{ matrix.go }}
       - name: Run tests
         run: go test ./... -cover
+
+  name: Multi-platform
+  build:
+    strategy:
+      matrix:
+        go: ["1.14"]
+        platform: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.platform }}
+    name: Go ${{ matrix.go }} [${{ matrix.platform }}]
+    steps: <<: *steps
