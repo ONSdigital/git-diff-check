@@ -3,9 +3,7 @@ name: Unit tests
 on: [push]
 
 jobs:
-
   regression:
-    name: Regression versions
     strategy:
       matrix:
         go: ["1.11", "1.12", "1.13"]
@@ -25,7 +23,6 @@ jobs:
         run: go test ./... -cover
 
   latest:
-    name: Multi-platform
     strategy:
       matrix:
         go: ["1.14"]
