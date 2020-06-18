@@ -35,7 +35,7 @@ $ git config --global core.hooksPath <path-to-global-hooks-folder>
 
 ### From Source
 
-(requires Go 1.8+)
+(requires Go 1.11+)
 
 ```sh
 $ go get github.com/ONSdigital/git-diff-check
