@@ -32,4 +32,4 @@ jobs:
         platform: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.platform }}
     name: Go ${{ matrix.go }} [${{ matrix.platform }}]
-    steps: <<: *steps
+    <<: *steps
