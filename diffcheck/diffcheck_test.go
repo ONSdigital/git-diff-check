@@ -80,7 +80,7 @@ func shouldEqualInt(field string, got, expected int, t *testing.T) {
 }
 
 var testCases = []testCase{
-	testCase{
+	{
 		Name:            "a file where sensitive lines were removed",
 		OK:              true,
 		ExpectedReports: nil,
@@ -96,7 +96,7 @@ index 782d690..e69de29 100644
 \ No newline at end of file
 			`),
 	},
-	testCase{
+	{
 		Name:            "a totally fine file",
 		OK:              true,
 		ExpectedReports: nil,
@@ -106,7 +106,7 @@ new file mode 100644
 index 0000000..e69de29
 			`),
 	},
-	testCase{
+	{
 		Name: "a potentially bad filename",
 		OK:   false,
 		ExpectedReports: []diffcheck.Report{
@@ -128,7 +128,7 @@ new file mode 100644
 index 0000000..e69de29
 			`),
 	},
-	testCase{
+	{
 		Name: "a potential AWS key",
 		OK:   false,
 		ExpectedReports: []diffcheck.Report{
