@@ -6,32 +6,30 @@ jobs:
 
   regression:
     name: Regression versions
-    build:
-      strategy:
-        matrix:
-          go: ["1.11", "1.12", "1.13"]
-          platform: [ubuntu-latest]
-      runs-on: ${{ matrix.platform }}
-      name: Go ${{ matrix.go }} [${{ matrix.platform }}]
-      steps: &steps
-        - name: Checkout
-          uses: actions/checkout@v2
-          with:
-            fetch-depth: 1
-        - name: Setup go
-          uses: actions/setup-go@v1
-          with:
-            go-version: ${{ matrix.go }}
-        - name: Run tests
-          run: go test ./... -cover
+    strategy:
+      matrix:
+        go: ["1.11", "1.12", "1.13"]
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    name: Go ${{ matrix.go }} [${{ matrix.platform }}]
+    steps: &steps
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - name: Setup go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go }}
+      - name: Run tests
+        run: go test ./... -cover
 
   latest:
     name: Multi-platform
-    build:
-      strategy:
-        matrix:
-          go: ["1.14"]
-          platform: [ubuntu-latest, windows-latest, macos-latest]
-      runs-on: ${{ matrix.platform }}
-      name: Go ${{ matrix.go }} [${{ matrix.platform }}]
-      <<: *steps
+    strategy:
+      matrix:
+        go: ["1.14"]
+        platform: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.platform }}
+    name: Go ${{ matrix.go }} [${{ matrix.platform }}]
+    <<: *steps
