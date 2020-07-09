@@ -25,6 +25,12 @@ var lineRulesJSON = []byte(`
 		"pattern": "AKIA[0-9A-Z]{16}",
 		"caption": "Possible AWS Access Key",
 		"description": null
+	},
+	{
+		"type": "regex",
+		"pattern": "[Tt][Oo][Dd][Oo]",
+		"caption": "Possible left-in todo comment",
+		"description": null
 	}
 ]	
 `)
