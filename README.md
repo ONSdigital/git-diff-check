@@ -2,6 +2,8 @@
 
 A simple library for checking git diff output for potentially sensitive information
 
+(forked from my original at `ONSdigital/git-diff-check`)
+
 ## Pre-commit hook
 
 *Requires git 2.9+*
