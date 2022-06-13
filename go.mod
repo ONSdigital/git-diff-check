@@ -1,3 +1,3 @@
-module github.com/ONSdigital/git-diff-check
+module github.com/necrophonic/git-diff-check
 
-go 1.14
+go 1.18

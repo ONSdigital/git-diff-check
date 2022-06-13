@@ -13,7 +13,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/ONSdigital/git-diff-check/diffcheck"
+	"github.com/necrophonic/git-diff-check/diffcheck"
 )
 
 const (
@@ -24,7 +24,7 @@ const (
 
 const (
 	// Repository defines the github repo where the source code is located
-	Repository = "ONSdigital/git-diff-check"
+	Repository = "necrophonic/git-diff-check"
 
 	// LatestVersion gives the api location of the most recent tag in github
 	LatestVersion = "https://api.github.com/repos/" + Repository + "/releases/latest"

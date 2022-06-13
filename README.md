@@ -19,12 +19,12 @@ to test changes before you commit.
 1. Run the installer:
 
 ```sh
-$ curl -L https://raw.githubusercontent.com/ONSdigital/git-diff-check/master/install.sh | sh
+$ curl -L https://raw.githubusercontent.com/necrophonic/git-diff-check/master/install.sh | sh
 ```
 
 - **For other platforms**
 
-1. Download the latest [release](https://github.com/ONSdigital/git-diff-check/releases) for your platform
+1. Download the latest [release](https://github.com/necrophonic/git-diff-check/releases) for your platform
 1. Create (if not already) a folder to store global git hooks (e.g. `${HOME}/.githooks`)
 1. Unzip the release and place the `pre-commit` script in the global hooks folder (ensure it's executable)
 1. Configure git to use the hooks:
@@ -35,19 +35,19 @@ $ git config --global core.hooksPath <path-to-global-hooks-folder>
 
 ### From Source
 
-(requires Go 1.11+)
+(requires Go 1.18+)
 
 ```sh
-$ go get github.com/ONSdigital/git-diff-check
+$ go get github.com/necrophonic/git-diff-check
 # or ..
 $ cd ${GOPATH}
-$ git clone https://github.com/ONSdigital/git-diff-check.git src/github.com/ONSdigital/git-diff-check
+$ git clone https://github.com/necrophonic/git-diff-check.git src/github.com/necrophonic/git-diff-check
 ```
 
 Then build:
 
 ```sh
-$ cd ${GOPATH}/src/github.com/ONSdigital/git-diff-check
+$ cd ${GOPATH}/src/github.com/necrophonic/git-diff-check
 $ go build -o pre-commit cmd/pre-commit/main.go
 ```
 

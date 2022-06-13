@@ -8,9 +8,9 @@
 
 ## 0.5.0 2018-09-17
 
-- fix [#8](https://github.com/ONSdigital/git-diff-check/issues/8) ignore lines in a patch that are being removed rather than added / changed
+- fix [#8](https://github.com/necrophonic/git-diff-check/issues/8) ignore lines in a patch that are being removed rather than added / changed
 - adds `-version` option to display the current cli version
-- fix [#13](https://github.com/ONSdigital/git-diff-check/issues/13) add basic version check
+- fix [#13](https://github.com/necrophonic/git-diff-check/issues/13) add basic version check
 
 ## 0.4.0 2018-04-25
 

@@ -27,3 +27,5 @@ _testmain.go
 pre-commit
 main
 build
+
+.vscode/

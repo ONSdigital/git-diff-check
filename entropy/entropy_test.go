@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/ONSdigital/git-diff-check/entropy"
+	"github.com/necrophonic/git-diff-check/entropy"
 )
 
 var (

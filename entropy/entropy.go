@@ -26,8 +26,12 @@ func CalculateShannon(data []byte) float64 {
 	}
 	entropy := 0.0
 	pX := 0.0
-	for x := 0; x < 256; x++ {
-		pX = float64(bytes.Count(data, []byte(string(x)))) / float64(len(data))
+
+	var start int32 = 0
+	var end int32 = 255
+
+	for x := start; x <= end; x++ {
+		pX = float64(bytes.Count(data, []byte{byte(x)})) / float64(len(data))
 		if pX > 0 {
 			entropy += -pX * math.Log2(pX)
 		}

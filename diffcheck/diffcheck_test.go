@@ -5,7 +5,7 @@ import (
 	"os/exec"
 	"testing"
 
-	"github.com/ONSdigital/git-diff-check/diffcheck"
+	"github.com/necrophonic/git-diff-check/diffcheck"
 )
 
 type testCase struct {

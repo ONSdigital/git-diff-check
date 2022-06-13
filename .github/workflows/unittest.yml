@@ -6,7 +6,7 @@ jobs:
   unit-test:
     strategy:
       matrix:
-        go: ["1.11", "1.12", "1.13", "1.14"]
+        go: ['1.18']
         platform: [ubuntu-latest]
     runs-on: ${{ matrix.platform }}
     name: Go ${{ matrix.go }} [${{ matrix.platform }}]

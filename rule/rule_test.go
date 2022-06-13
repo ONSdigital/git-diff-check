@@ -3,7 +3,7 @@ package rule_test
 import (
 	"testing"
 
-	"github.com/ONSdigital/git-diff-check/rule"
+	"github.com/necrophonic/git-diff-check/rule"
 )
 
 func TestInitRules(t *testing.T) {
